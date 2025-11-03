@@ -1,5 +1,6 @@
 import { Facebook, Instagram, Twitter, Mail, MapPin } from "lucide-react";
 import { useI18n } from "@/i18n";
+import trustedLogos from "@/assets/footer.png";
 
 const Footer = () => {
   const { t } = useI18n();
@@ -13,6 +14,17 @@ const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
+        {/* Trusted by logos */}
+        <div className="mb-10">
+          <div className="bg-primary-foreground/10 rounded-xl p-4 flex items-center justify-center">
+            <img
+              src={trustedLogos}
+              alt="Trusted by institutions"
+              className="max-h-12 md:max-h-16 w-auto object-contain opacity-90"
+            />
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div>
