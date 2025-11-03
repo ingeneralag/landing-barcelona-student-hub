@@ -9,7 +9,7 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 215 25% 27%;
+    --foreground: 24 35% 20%;
 
     --card: 0 0% 100%;
     --card-foreground: 215 25% 27%;
@@ -17,42 +17,42 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 27%;
 
-    /* Azul marino principal - confianza y profesionalidad */
-    --primary: 215 85% 30%;
+    /* Orange palette */
+    --primary: 24 90% 54%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 215 85% 45%;
-    --primary-dark: 215 85% 20%;
+    --primary-light: 24 90% 64%;
+    --primary-dark: 24 90% 44%;
 
-    /* Coral - energía y juventud */
-    --secondary: 6 90% 69%;
+    /* Soft orange accent */
+    --secondary: 30 95% 65%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-light: 6 90% 80%;
+    --secondary-light: 30 95% 78%;
 
-    --muted: 210 30% 96%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 24 30% 97%;
+    --muted-foreground: 24 15% 40%;
 
-    --accent: 6 90% 69%;
+    --accent: 24 90% 54%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 20% 88%;
-    --input: 215 20% 88%;
-    --ring: 215 85% 30%;
+    --border: 24 20% 88%;
+    --input: 24 20% 88%;
+    --ring: 24 90% 54%;
 
     --radius: 0.75rem;
 
-    /* Gradientes personalizados */
-    --gradient-hero: linear-gradient(135deg, hsl(215 85% 30%) 0%, hsl(215 85% 45%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(6 90% 69%) 0%, hsl(6 90% 80%) 100%);
-    --gradient-overlay: linear-gradient(180deg, rgba(11, 61, 145, 0.85) 0%, rgba(11, 61, 145, 0.65) 100%);
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(24 90% 54%) 0%, hsl(24 90% 64%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(30 95% 65%) 0%, hsl(30 95% 78%) 100%);
+    --gradient-overlay: linear-gradient(180deg, rgba(217, 119, 6, 0.85) 0%, rgba(217, 119, 6, 0.65) 100%);
 
-    /* Sombras elegantes */
-    --shadow-sm: 0 2px 8px rgba(11, 61, 145, 0.08);
-    --shadow-md: 0 4px 16px rgba(11, 61, 145, 0.12);
-    --shadow-lg: 0 8px 32px rgba(11, 61, 145, 0.16);
-    --shadow-xl: 0 16px 48px rgba(11, 61, 145, 0.2);
+    /* Shadows tuned for orange */
+    --shadow-sm: 0 2px 8px rgba(217, 119, 6, 0.08);
+    --shadow-md: 0 4px 16px rgba(217, 119, 6, 0.12);
+    --shadow-lg: 0 8px 32px rgba(217, 119, 6, 0.16);
+    --shadow-xl: 0 16px 48px rgba(217, 119, 6, 0.2);
 
     /* Transiciones suaves */
     --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

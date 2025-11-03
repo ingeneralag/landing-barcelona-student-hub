@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { MapPin, Wifi, Clock } from "lucide-react";
 import heroImage from "@/assets/hero-students.jpg";
+import { useI18n } from "@/i18n";
 
 const Hero = () => {
+  const { t } = useI18n();
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -10,9 +12,10 @@ const Hero = () => {
     }
   };
 
-  const openWhatsApp = () => {
-    const message = encodeURIComponent("Hola, me interesa alojamiento en Barcelona. ¿Podrían darme más información?");
-    window.open(`https://wa.me/34600000000?text=${message}`, "_blank");
+  const openEmail = () => {
+    const subject = encodeURIComponent("Consulta de alojamiento");
+    const body = encodeURIComponent("Hola, me interesa alojamiento en Barcelona. ¿Podrían darme más información?");
+    window.location.href = `mailto:info@alojamiento-barcelona.com?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -31,10 +34,10 @@ const Hero = () => {
       <div className="container mx-auto px-4 relative z-10 pt-20">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h1 className="mb-6 animate-fade-in">
-            Residencias para estudiantes en España
+            {t("hero_title")}
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-white/95 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            Barcelona · Madrid · Valencia — alojamiento seguro, económico y cerca de todo
+            {t("hero_subtitle")}
           </p>
 
           {/* CTAs */}
@@ -44,15 +47,15 @@ const Hero = () => {
               size="lg"
               className="gradient-accent text-accent-foreground font-semibold text-lg px-8 py-6 shadow-xl hover:shadow-2xl transition-smooth"
             >
-              Buscar alojamiento
+              {t("hero_search")}
             </Button>
             <Button
-              onClick={openWhatsApp}
+              onClick={openEmail}
               size="lg"
               variant="outline"
               className="bg-white/10 text-white border-white/30 hover:bg-white/20 backdrop-blur-sm font-semibold text-lg px-8 py-6"
             >
-              Contactar por WhatsApp
+              {t("hero_contact_email")}
             </Button>
           </div>
 

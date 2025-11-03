@@ -4,41 +4,64 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useI18n } from "@/i18n";
 
 const faqs = [
   {
-    question: "¿Cuánto cuesta el depósito?",
-    answer: "Normalmente 1 mes de fianza. El depósito varía según la residencia y se devuelve al finalizar el contrato si no hay daños.",
+    question: {
+      es: "¿Cuánto cuesta el depósito?",
+      en: "How much is the deposit?",
+    },
+    answer: {
+      es: "Normalmente 1 mes de fianza. El depósito varía según la residencia y se devuelve al finalizar el contrato si no hay daños.",
+      en: "Usually 1 month. The amount may vary by residence and is returned at the end of the contract if there are no damages.",
+    },
   },
   {
-    question: "¿Incluye servicios?",
-    answer: "Algunas tarifas incluyen Wi-Fi y agua, otras solo electricidad. Revisa cada oferta específica para conocer qué servicios están incluidos en el precio.",
+    question: { es: "¿Incluye servicios?", en: "Are utilities included?" },
+    answer: {
+      es: "Algunas tarifas incluyen Wi-Fi y agua, otras solo electricidad. Revisa cada oferta específica para conocer qué servicios están incluidos en el precio.",
+      en: "Some rates include Wi‑Fi and water, others only electricity. Check each offer to see what's included.",
+    },
   },
   {
-    question: "¿Puedo cancelar mi reserva?",
-    answer: "Política flexible hasta 14 días antes de la fecha de entrada. Revisa las condiciones específicas al realizar la reserva.",
+    question: { es: "¿Puedo cancelar mi reserva?", en: "Can I cancel my booking?" },
+    answer: {
+      es: "Política flexible hasta 14 días antes de la fecha de entrada. Revisa las condiciones específicas al realizar la reserva.",
+      en: "Flexible policy up to 14 days before check‑in. Check specific conditions during booking.",
+    },
   },
   {
-    question: "¿Cuál es la duración mínima del contrato?",
-    answer: "La duración mínima suele ser de 3 meses, aunque algunas residencias ofrecen opciones más cortas. Consulta disponibilidad según tus necesidades.",
+    question: { es: "¿Cuál es la duración mínima del contrato?", en: "What is the minimum contract length?" },
+    answer: {
+      es: "La duración mínima suele ser de 3 meses, aunque algunas residencias ofrecen opciones más cortas. Consulta disponibilidad según tus necesidades.",
+      en: "Minimum stay is usually 3 months, though some residences offer shorter options. Ask for availability.",
+    },
   },
   {
-    question: "¿Qué necesito para hacer la reserva?",
-    answer: "Necesitarás DNI/pasaporte, carta de aceptación de la universidad (si aplica), y realizar el pago del depósito y primer mes.",
+    question: { es: "¿Qué necesito para hacer la reserva?", en: "What do I need to book?" },
+    answer: {
+      es: "Necesitarás DNI/pasaporte, carta de aceptación de la universidad (si aplica), y realizar el pago del depósito y primer mes.",
+      en: "ID/passport, university acceptance letter (if applicable), and payment of deposit and first month.",
+    },
   },
   {
-    question: "¿Hay límite de edad?",
-    answer: "Nuestras residencias están diseñadas principalmente para estudiantes universitarios entre 18 y 30 años.",
+    question: { es: "¿Hay límite de edad?", en: "Is there an age limit?" },
+    answer: {
+      es: "Nuestras residencias están diseñadas principalmente para estudiantes universitarios entre 18 y 30 años.",
+      en: "Our residences are mainly designed for university students between 18 and 30 years old.",
+    },
   },
 ];
 
 const FAQ = () => {
+  const { t, locale } = useI18n();
   return (
     <section className="py-20 bg-muted">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="mb-4">Preguntas Frecuentes</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="mb-4 text-3xl sm:text-4xl">{t("sec_faq_title")}</h2>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
             Resuelve tus dudas sobre nuestro proceso de reserva y alojamientos
           </p>
         </div>
@@ -51,11 +74,11 @@ const FAQ = () => {
                 value={`item-${index}`}
                 className="bg-card rounded-lg px-6 shadow-md"
               >
-                <AccordionTrigger className="text-left font-semibold hover:text-primary">
-                  {faq.question}
+                <AccordionTrigger className="text-left font-semibold hover:text-primary text-base sm:text-lg">
+                  {faq.question[locale]}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  {faq.answer}
+                <AccordionContent className="text-muted-foreground text-sm sm:text-base">
+                  {faq.answer[locale]}
                 </AccordionContent>
               </AccordionItem>
             ))}

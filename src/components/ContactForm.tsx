@@ -8,12 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().trim().min(2, "El nombre debe tener al menos 2 caracteres").max(100, "El nombre es demasiado largo"),
   email: z.string().trim().email("Email inválido").max(255, "El email es demasiado largo"),
-  phone: z.string().trim().min(9, "Teléfono inválido").max(20, "Teléfono inválido"),
   city: z.string().min(1, "Selecciona una ciudad"),
   startDate: z.string().min(1, "Selecciona una fecha"),
   duration: z.string().min(1, "Selecciona la duración"),
@@ -43,23 +42,20 @@ const ContactForm = () => {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       toast.success("¡Mensaje enviado!", {
-        description: "Te contactaremos pronto por email o WhatsApp.",
+        description: "Te contactaremos pronto por email.",
       });
       
       reset();
     } catch (error) {
       toast.error("Error al enviar", {
-        description: "Por favor, intenta nuevamente o contáctanos por WhatsApp.",
+        description: "Por favor, intenta nuevamente o contáctanos por email.",
       });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const openWhatsApp = () => {
-    const message = encodeURIComponent("Hola, me gustaría recibir más información sobre sus alojamientos.");
-    window.open(`https://wa.me/34600000000?text=${message}`, "_blank");
-  };
+  
 
   return (
     <section id="contact" className="py-20 bg-muted">
@@ -83,33 +79,9 @@ const ContactForm = () => {
                   </div>
                   <div>
                     <p className="font-semibold">Email</p>
-                    <a href="mailto:reservas@alojamiento-barcelona.com" className="text-primary hover:underline">
-                      reservas@alojamiento-barcelona.com
+                    <a href="mailto:info@alojamiento-barcelona.com" className="text-primary hover:underline">
+                      info@alojamiento-barcelona.com
                     </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full gradient-hero flex items-center justify-center flex-shrink-0">
-                    <Phone className="text-primary-foreground" size={20} />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Teléfono</p>
-                    <a href="tel:+34600000000" className="text-primary hover:underline">
-                      +34 600 000 000
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full gradient-hero flex items-center justify-center flex-shrink-0">
-                    <MessageSquare className="text-primary-foreground" size={20} />
-                  </div>
-                  <div>
-                    <p className="font-semibold">WhatsApp</p>
-                    <button onClick={openWhatsApp} className="text-primary hover:underline">
-                      Enviar mensaje
-                    </button>
                   </div>
                 </div>
 
@@ -170,18 +142,7 @@ const ContactForm = () => {
                 )}
               </div>
 
-              <div>
-                <Label htmlFor="phone">Teléfono</Label>
-                <Input
-                  id="phone"
-                  {...register("phone")}
-                  placeholder="+34 600 000 000"
-                  className={errors.phone ? "border-destructive" : ""}
-                />
-                {errors.phone && (
-                  <p className="text-sm text-destructive mt-1">{errors.phone.message}</p>
-                )}
-              </div>
+              
 
               <div>
                 <Label htmlFor="city">Ciudad de interés</Label>

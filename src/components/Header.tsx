@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo1212.png";
+import { useI18n } from "@/i18n";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t, locale, setLocale } = useI18n();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,9 +37,10 @@ const Header = () => {
           <div className="flex items-center">
             <button
               onClick={() => scrollToSection("hero")}
-              className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent"
+              className="flex items-center gap-2"
+              aria-label="Home"
             >
-              Alojamiento-Barcelona
+              <img src={logo} alt="Site logo" className="h-12 md:h-14 w-auto" />
             </button>
           </div>
 
@@ -46,38 +50,44 @@ const Header = () => {
               onClick={() => scrollToSection("hero")}
               className="text-foreground/80 hover:text-foreground transition-smooth"
             >
-              Inicio
+              {t("nav_home")}
             </button>
             <button
               onClick={() => scrollToSection("cities")}
               className="text-foreground/80 hover:text-foreground transition-smooth"
             >
-              Ciudades
+              {t("nav_cities")}
             </button>
             <button
               onClick={() => scrollToSection("how-to-book")}
               className="text-foreground/80 hover:text-foreground transition-smooth"
             >
-              Cómo reservar
+              {t("nav_how")}
             </button>
             <button
               onClick={() => scrollToSection("pricing")}
               className="text-foreground/80 hover:text-foreground transition-smooth"
             >
-              Precios
+              {t("nav_pricing")}
             </button>
             <button
               onClick={() => scrollToSection("contact")}
               className="text-foreground/80 hover:text-foreground transition-smooth"
             >
-              Contacto
+              {t("nav_contact")}
             </button>
             <Button
               onClick={() => scrollToSection("search")}
               className="gradient-hero text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-smooth"
             >
-              Reservar ahora
+              {t("cta_book_now")}
             </Button>
+            <button
+              onClick={() => setLocale(locale === "es" ? "en" : "es")}
+              className="ml-2 px-3 py-2 text-sm rounded-md border border-border hover:bg-muted"
+            >
+              {locale === "es" ? "EN" : "ES"}
+            </button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -97,38 +107,44 @@ const Header = () => {
                 onClick={() => scrollToSection("hero")}
                 className="text-foreground/80 hover:text-foreground transition-smooth text-left"
               >
-                Inicio
+                {t("nav_home")}
               </button>
               <button
                 onClick={() => scrollToSection("cities")}
                 className="text-foreground/80 hover:text-foreground transition-smooth text-left"
               >
-                Ciudades
+                {t("nav_cities")}
               </button>
               <button
                 onClick={() => scrollToSection("how-to-book")}
                 className="text-foreground/80 hover:text-foreground transition-smooth text-left"
               >
-                Cómo reservar
+                {t("nav_how")}
               </button>
               <button
                 onClick={() => scrollToSection("pricing")}
                 className="text-foreground/80 hover:text-foreground transition-smooth text-left"
               >
-                Precios
+                {t("nav_pricing")}
               </button>
               <button
                 onClick={() => scrollToSection("contact")}
                 className="text-foreground/80 hover:text-foreground transition-smooth text-left"
               >
-                Contacto
+                {t("nav_contact")}
               </button>
               <Button
                 onClick={() => scrollToSection("search")}
                 className="gradient-hero text-primary-foreground font-semibold"
               >
-                Reservar ahora
+                {t("cta_book_now")}
               </Button>
+              <button
+                onClick={() => setLocale(locale === "es" ? "en" : "es")}
+                className="mt-2 w-fit px-3 py-2 text-sm rounded-md border border-border hover:bg-muted"
+              >
+                {locale === "es" ? "EN" : "ES"}
+              </button>
             </div>
           </nav>
         )}

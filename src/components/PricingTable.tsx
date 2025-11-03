@@ -1,55 +1,58 @@
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n";
 
 const plans = [
   {
-    name: "Individual Básica",
+    name: { es: "Individual Básica", en: "Individual Basic" },
     price: 350,
     features: [
-      "Wi-Fi incluido",
-      "Cocina compartida",
-      "Baño compartido",
-      "Limpieza zonas comunes",
+      { es: "Wi‑Fi incluido", en: "Wi‑Fi included" },
+      { es: "Cocina compartida", en: "Shared kitchen" },
+      { es: "Baño compartido", en: "Shared bathroom" },
+      { es: "Limpieza zonas comunes", en: "Common areas cleaning" },
     ],
   },
   {
-    name: "Individual Premium",
+    name: { es: "Individual Premium", en: "Individual Premium" },
     price: 550,
     popular: true,
     features: [
-      "Wi-Fi incluido",
-      "Baño privado",
-      "Limpieza semanal",
-      "Utilities incluidos",
-      "Zona de estudio privada",
+      { es: "Wi‑Fi incluido", en: "Wi‑Fi included" },
+      { es: "Baño privado", en: "Private bathroom" },
+      { es: "Limpieza semanal", en: "Weekly cleaning" },
+      { es: "Utilities incluidos", en: "Utilities included" },
+      { es: "Zona de estudio privada", en: "Private study area" },
     ],
   },
   {
-    name: "Compartida",
+    name: { es: "Compartida", en: "Shared" },
     price: 250,
     perPerson: true,
     features: [
-      "Wi-Fi incluido",
-      "Cocina equipada",
-      "Baño compartido",
-      "2 personas por habitación",
+      { es: "Wi‑Fi incluido", en: "Wi‑Fi included" },
+      { es: "Cocina equipada", en: "Equipped kitchen" },
+      { es: "Baño compartido", en: "Shared bathroom" },
+      { es: "2 personas por habitación", en: "2 people per room" },
     ],
   },
 ];
 
 const PricingTable = () => {
-  const openWhatsApp = () => {
-    const message = encodeURIComponent("Hola, me gustaría consultar disponibilidad y precios. ¿Podrían ayudarme?");
-    window.open(`https://wa.me/34600000000?text=${message}`, "_blank");
+  const { t, locale } = useI18n();
+  const openEmail = () => {
+    const subject = encodeURIComponent("Consulta de disponibilidad y precios");
+    const body = encodeURIComponent("Hola, me gustaría consultar disponibilidad y precios. ¿Podrían ayudarme?");
+    window.location.href = `mailto:info@alojamiento-barcelona.com?subject=${subject}&body=${body}`;
   };
 
   return (
     <section id="pricing" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="mb-4">Precios y Paquetes</h2>
+          <h2 className="mb-4">{t("sec_pricing_title")}</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Opciones flexibles que se adaptan a tu presupuesto
+            {t("sec_pricing_sub")}
           </p>
         </div>
 
@@ -68,33 +71,33 @@ const PricingTable = () => {
               )}
               
               <div className="p-8">
-                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                <h3 className="text-2xl font-bold mb-2">{(plan.name as any)[locale]}</h3>
                 <div className="mb-6">
                   <span className="text-4xl font-bold">{plan.price}€</span>
-                  <span className="text-muted-foreground">/mes</span>
+                  <span className="text-muted-foreground">/ {locale === "es" ? "mes" : "month"}</span>
                   {plan.perPerson && (
-                    <span className="text-sm text-muted-foreground block">por persona</span>
+                    <span className="text-sm text-muted-foreground block">{locale === "es" ? "por persona" : "per person"}</span>
                   )}
                 </div>
 
                 <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
+                  {(plan.features as any).map((feature: any, featureIndex: number) => (
                     <li key={featureIndex} className="flex items-center gap-2">
                       <Check className="text-primary flex-shrink-0" size={20} />
-                      <span>{feature}</span>
+                      <span>{feature[locale]}</span>
                     </li>
                   ))}
                 </ul>
 
                 <Button
-                  onClick={openWhatsApp}
+                  onClick={openEmail}
                   className={`w-full font-semibold ${
                     plan.popular
                       ? "gradient-accent text-accent-foreground"
                       : "gradient-hero text-primary-foreground"
                   }`}
                 >
-                  Consultar disponibilidad
+                  {t("btn_check_availability")}
                 </Button>
               </div>
             </div>

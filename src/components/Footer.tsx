@@ -1,6 +1,8 @@
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Instagram, Twitter, Mail, MapPin } from "lucide-react";
+import { useI18n } from "@/i18n";
 
 const Footer = () => {
+  const { t } = useI18n();
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -48,7 +50,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
+            <h4 className="text-lg font-semibold mb-4">{t("footer_quick")}</h4>
             <ul className="space-y-2">
               <li>
                 <button
@@ -95,7 +97,7 @@ const Footer = () => {
 
           {/* Ciudades */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Nuestras Ciudades</h4>
+            <h4 className="text-lg font-semibold mb-4">{t("footer_cities")}</h4>
             <ul className="space-y-2">
               <li className="text-primary-foreground/80">Barcelona</li>
               <li className="text-primary-foreground/80">Madrid</li>
@@ -105,24 +107,15 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contacto</h4>
+            <h4 className="text-lg font-semibold mb-4">{t("footer_contact")}</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <Mail size={18} className="mt-1 flex-shrink-0" />
                 <a
-                  href="mailto:reservas@alojamiento-barcelona.com"
+                  href="mailto:info@alojamiento-barcelona.com"
                   className="text-primary-foreground/80 hover:text-secondary transition-smooth"
                 >
-                  reservas@alojamiento-barcelona.com
-                </a>
-              </li>
-              <li className="flex items-start gap-2">
-                <Phone size={18} className="mt-1 flex-shrink-0" />
-                <a
-                  href="tel:+34600000000"
-                  className="text-primary-foreground/80 hover:text-secondary transition-smooth"
-                >
-                  +34 600 000 000
+                  info@alojamiento-barcelona.com
                 </a>
               </li>
               <li className="flex items-start gap-2">

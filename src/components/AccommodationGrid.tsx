@@ -2,89 +2,107 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { MapPin, Bed, Euro } from "lucide-react";
-import roomIndividual from "@/assets/room-individual.jpg";
-import roomShared from "@/assets/room-shared.jpg";
+import individual1 from "@/assets/individual1.jpg";
+import individual2 from "@/assets/individual2.jpg";
+import individual3 from "@/assets/individual3.jpg";
+import shared1 from "@/assets/shared1.jpg";
+import shared2 from "@/assets/shared2.jpg";
+import shared3 from "@/assets/shared3.jpg";
+import { useI18n } from "@/i18n";
 
 const accommodations = [
+  // Barcelona
   {
     id: 1,
-    title: "Habitación Individual Premium - Barcelona",
+    title: "Habitación Individual - Barcelona",
     type: "Individual",
     city: "Barcelona",
     price: 550,
     distance: "5 min de UB",
-    image: roomIndividual,
+    image: individual1,
     features: ["Wi-Fi incluido", "Limpieza semanal", "Baño privado"],
+    available: true,
   },
   {
     id: 2,
-    title: "Habitación Individual Básica - Barcelona",
-    type: "Individual",
-    city: "Barcelona",
-    price: 350,
-    distance: "10 min de UPC",
-    image: roomIndividual,
-    features: ["Wi-Fi incluido", "Cocina compartida"],
-  },
-  {
-    id: 3,
     title: "Habitación Compartida - Barcelona",
     type: "Compartida",
     city: "Barcelona",
-    price: 250,
+    price: 400,
     distance: "8 min de UPF",
-    image: roomShared,
+    image: shared1,
     features: ["Wi-Fi incluido", "2 personas", "Cocina equipada"],
+    available: false,
   },
+
+  // Madrid
   {
-    id: 4,
-    title: "Habitación Individual Premium - Madrid",
-    type: "Individual",
-    city: "Madrid",
-    price: 530,
-    distance: "7 min de UCM",
-    image: roomIndividual,
-    features: ["Wi-Fi incluido", "Limpieza incluida", "Baño privado"],
-  },
-  {
-    id: 5,
+    id: 3,
     title: "Habitación Individual - Madrid",
     type: "Individual",
     city: "Madrid",
-    price: 330,
-    distance: "12 min de UAM",
-    image: roomIndividual,
-    features: ["Wi-Fi incluido", "Zona tranquila"],
+    price: 550,
+    distance: "7 min de UCM",
+    image: individual2,
+    features: ["Wi-Fi incluido", "Limpieza incluida", "Zona de estudio"],
+    available: true,
   },
   {
-    id: 6,
+    id: 4,
+    title: "Habitación Compartida - Madrid",
+    type: "Compartida",
+    city: "Madrid",
+    price: 400,
+    distance: "12 min de UAM",
+    image: shared2,
+    features: ["Wi-Fi incluido", "2 personas", "Cocina equipada"],
+    available: false,
+  },
+
+  // Valencia
+  {
+    id: 5,
     title: "Habitación Individual - Valencia",
     type: "Individual",
     city: "Valencia",
-    price: 300,
+    price: 480,
     distance: "6 min de UV",
-    image: roomIndividual,
+    image: individual3,
     features: ["Wi-Fi incluido", "Cerca de la playa"],
+    available: true,
+  },
+  {
+    id: 6,
+    title: "Habitación Compartida - Valencia",
+    type: "Compartida",
+    city: "Valencia",
+    price: 300,
+    distance: "10 min de UV",
+    image: shared3,
+    features: ["Wi-Fi incluido", "2 personas", "Cocina equipada"],
+    available: false,
   },
 ];
 
 const AccommodationGrid = () => {
   const [selectedAccommodation, setSelectedAccommodation] = useState<typeof accommodations[0] | null>(null);
+  const { t } = useI18n();
 
-  const openWhatsApp = (accommodation: typeof accommodations[0]) => {
-    const message = encodeURIComponent(
+  const openEmail = (accommodation: typeof accommodations[0]) => {
+    const subject = encodeURIComponent(`Interés en ${accommodation.title}`);
+    const body = encodeURIComponent(
       `Hola, me interesa la ${accommodation.title}. Precio: ${accommodation.price}€/mes. ¿Podrían darme más información?`
     );
-    window.open(`https://wa.me/34600000000?text=${message}`, "_blank");
+    window.location.href = `mailto:info@alojamiento-barcelona.com?subject=${subject}&body=${body}`;
   };
 
   return (
     <section id="accommodations" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="mb-4">Alojamientos Disponibles</h2>
+          <h2 className="mb-4">{t("sec_accommodations_title")}</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Explora nuestras opciones de habitaciones en las mejores ubicaciones
+            {t("sec_accommodations_sub")}
           </p>
         </div>
 
@@ -99,11 +117,18 @@ const AccommodationGrid = () => {
                 <img
                   src={accommodation.image}
                   alt={accommodation.title}
-                  className="w-full h-full object-cover hover:scale-110 transition-smooth"
+                  className={`w-full h-full object-cover hover:scale-110 transition-smooth ${
+                    accommodation.available === false ? "opacity-60 grayscale" : ""
+                  }`}
                 />
                 <div className="absolute top-4 right-4 bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
                   {accommodation.type}
                 </div>
+                {accommodation.available === false && (
+                  <div className="absolute top-4 left-4 bg-destructive text-destructive-foreground px-3 py-1 rounded-full text-sm font-semibold">
+                    {t("label_full")}
+                  </div>
+                )}
               </div>
               
               <div className="p-6">
@@ -134,11 +159,17 @@ const AccommodationGrid = () => {
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    openWhatsApp(accommodation);
+                    if (accommodation.available === false) return;
+                    openEmail(accommodation);
                   }}
-                  className="w-full gradient-accent text-accent-foreground font-semibold"
+                  disabled={accommodation.available === false}
+                  className={`w-full font-semibold ${
+                    accommodation.available === false
+                      ? "bg-muted text-muted-foreground cursor-not-allowed"
+                      : "gradient-accent text-accent-foreground"
+                  }`}
                 >
-                  Reservar
+                  {accommodation.available === false ? t("label_full") : t("btn_contact_email")}
                 </Button>
               </div>
             </div>
@@ -188,10 +219,18 @@ const AccommodationGrid = () => {
                 </div>
               </div>
               <Button
-                onClick={() => openWhatsApp(selectedAccommodation)}
-                className="w-full gradient-accent text-accent-foreground font-semibold"
+                onClick={() => {
+                  if (!selectedAccommodation || selectedAccommodation.available === false) return;
+                  openEmail(selectedAccommodation);
+                }}
+                disabled={selectedAccommodation?.available === false}
+                className={`w-full font-semibold ${
+                  selectedAccommodation?.available === false
+                    ? "bg-muted text-muted-foreground cursor-not-allowed"
+                    : "gradient-accent text-accent-foreground"
+                }`}
               >
-                Contactar por WhatsApp
+                {selectedAccommodation?.available === false ? t("label_full") : t("btn_contact_email")}
               </Button>
             </div>
           )}

@@ -1,26 +1,27 @@
 import { Search, MessageSquare, FileText, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n";
 
 const steps = [
   {
     icon: Search,
-    title: "Selecciona",
-    description: "Selecciona ciudad, fechas y tipo de habitación.",
+    title: { es: "Selecciona", en: "Select" },
+    description: { es: "Selecciona ciudad, fechas y tipo de habitación.", en: "Choose city, dates and room type." },
   },
   {
     icon: MessageSquare,
-    title: "Reserva",
-    description: "Revisa las opciones y reserva online o solicita más info por WhatsApp.",
+    title: { es: "Reserva", en: "Reserve" },
+    description: { es: "Revisa las opciones y reserva online o solicita más info por email.", en: "Review options and book online or request more info by email." },
   },
   {
     icon: FileText,
-    title: "Firma",
-    description: "Firma contrato digital y realiza el pago seguro.",
+    title: { es: "Firma", en: "Sign" },
+    description: { es: "Firma contrato digital y realiza el pago seguro.", en: "Sign the digital contract and make a secure payment." },
   },
   {
     icon: Key,
-    title: "Check-in",
-    description: "Check-in y bienvenida.",
+    title: { es: "Check-in", en: "Check-in" },
+    description: { es: "Check-in y bienvenida.", en: "Check-in and welcome." },
   },
 ];
 
@@ -32,11 +33,12 @@ const HowToBook = () => {
     }
   };
 
+  const { t, locale } = useI18n();
   return (
     <section id="how-to-book" className="py-20 bg-muted">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="mb-4">Cómo reservar</h2>
+          <h2 className="mb-4">{t("sec_how_title")}</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Proceso simple y rápido en 4 pasos
           </p>
@@ -60,8 +62,8 @@ const HowToBook = () => {
                         {index + 1}
                       </div>
                     </div>
-                    <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                    <p className="text-muted-foreground">{step.description}</p>
+                    <h3 className="text-xl font-bold mb-2">{step.title[locale]}</h3>
+                    <p className="text-muted-foreground">{step.description[locale]}</p>
                   </div>
                 </div>
               );
@@ -75,7 +77,7 @@ const HowToBook = () => {
             size="lg"
             className="gradient-accent text-accent-foreground font-semibold text-lg px-8"
           >
-            Reservar ahora
+            {t("cta_book_now")}
           </Button>
         </div>
       </div>
