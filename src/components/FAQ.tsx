@@ -52,6 +52,16 @@ const faqs = [
       en: "Our residences are mainly designed for university students between 18 and 30 years old.",
     },
   },
+  {
+    question: {
+      es: "¿Cuándo no puedo recuperar mi dinero?",
+      en: "When can I not get a refund?",
+    },
+    answer: {
+      es: "Si no nos avisas como máximo 2 días antes de la fecha de inicio del alojamiento o si no dispones de la documentación necesaria para solicitar el reembolso, como: (1) carta de denegación de la embajada correspondiente y (2) justificante oficial de la universidad sobre los pagos/recibos. Todo ello conforme a la normativa de la Unión Europea.",
+      en: "If you do not notify us at least 2 days before the start date of your accommodation, or if you do not provide the required documents to request a refund, such as: (1) a refusal letter from the relevant embassy and (2) an official receipt/fee confirmation from your university. All in accordance with EU regulations.",
+    },
+  },
 ];
 
 const FAQ = () => {
