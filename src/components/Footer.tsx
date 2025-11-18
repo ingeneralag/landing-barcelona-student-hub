@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter, Mail, MapPin } from "lucide-react";
+import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from "lucide-react";
 import { useI18n } from "@/i18n";
 import trustedLogos from "@/assets/footer.png";
 
@@ -128,6 +128,15 @@ const Footer = () => {
                   className="text-primary-foreground/80 hover:text-secondary transition-smooth"
                 >
                   info@alojamiento-barcelona.com
+                </a>
+              </li>
+              <li className="flex items-start gap-2">
+                <Phone size={18} className="mt-1 flex-shrink-0" />
+                <a
+                  href="tel:+34399409700"
+                  className="text-primary-foreground/80 hover:text-secondary transition-smooth"
+                >
+                  +34 399 409 700
                 </a>
               </li>
               <li className="flex items-start gap-2">
