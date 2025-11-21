@@ -1,5 +1,6 @@
 import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from "lucide-react";
 import { useI18n } from "@/i18n";
+import { Link } from "react-router-dom";
 import trustedLogos from "@/assets/footer.png";
 
 const Footer = () => {
@@ -155,12 +156,12 @@ const Footer = () => {
               © {new Date().getFullYear()} Alojamiento-Barcelona — Todos los derechos reservados.
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-primary-foreground/60 hover:text-secondary transition-smooth">
+              <Link to="/terms" className="text-primary-foreground/60 hover:text-secondary transition-smooth">
                 Política de privacidad
-              </a>
-              <a href="#" className="text-primary-foreground/60 hover:text-secondary transition-smooth">
+              </Link>
+              <Link to="/terms" className="text-primary-foreground/60 hover:text-secondary transition-smooth">
                 Términos y condiciones
-              </a>
+              </Link>
             </div>
           </div>
         </div>

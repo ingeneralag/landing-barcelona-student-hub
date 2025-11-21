@@ -1,99 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MapPin, Bed, Euro } from "lucide-react";
-import individual1 from "@/assets/individual1.jpg";
-import individual2 from "@/assets/individual2.jpg";
-import individual3 from "@/assets/individual3.jpg";
-import shared1 from "@/assets/shared1.jpg";
-import shared2 from "@/assets/shared2.jpg";
-import shared3 from "@/assets/shared3.jpg";
+import { MapPin, Euro, Loader2 } from "lucide-react";
 import { useI18n } from "@/i18n";
-
-const accommodations = [
-  // Barcelona
-  {
-    id: 1,
-    title: "Habitación Individual - Barcelona",
-    type: "Individual",
-    city: "Barcelona",
-    price: 550,
-    distance: "5 min de UB",
-    image: individual1,
-    features: ["Wi-Fi incluido", "Limpieza semanal", "Baño privado"],
-    available: true,
-  },
-  {
-    id: 2,
-    title: "Habitación Compartida - Barcelona",
-    type: "Compartida",
-    city: "Barcelona",
-    price: 400,
-    distance: "8 min de UPF",
-    image: shared1,
-    features: ["Wi-Fi incluido", "2 personas", "Cocina equipada"],
-    available: false,
-  },
-
-  // Madrid
-  {
-    id: 3,
-    title: "Habitación Individual - Madrid",
-    type: "Individual",
-    city: "Madrid",
-    price: 550,
-    distance: "7 min de UCM",
-    image: individual2,
-    features: ["Wi-Fi incluido", "Limpieza incluida", "Zona de estudio"],
-    available: true,
-  },
-  {
-    id: 4,
-    title: "Habitación Compartida - Madrid",
-    type: "Compartida",
-    city: "Madrid",
-    price: 400,
-    distance: "12 min de UAM",
-    image: shared2,
-    features: ["Wi-Fi incluido", "2 personas", "Cocina equipada"],
-    available: false,
-  },
-
-  // Valencia
-  {
-    id: 5,
-    title: "Habitación Individual - Valencia",
-    type: "Individual",
-    city: "Valencia",
-    price: 480,
-    distance: "6 min de UV",
-    image: individual3,
-    features: ["Wi-Fi incluido", "Cerca de la playa"],
-    available: true,
-  },
-  {
-    id: 6,
-    title: "Habitación Compartida - Valencia",
-    type: "Compartida",
-    city: "Valencia",
-    price: 300,
-    distance: "10 min de UV",
-    image: shared3,
-    features: ["Wi-Fi incluido", "2 personas", "Cocina equipada"],
-    available: false,
-  },
-];
+import { accommodations } from "@/data/accommodations";
+import { useBooking } from "@/contexts/BookingContext";
+import type { Accommodation } from "@/data/accommodations";
 
 const AccommodationGrid = () => {
-  const [selectedAccommodation, setSelectedAccommodation] = useState<typeof accommodations[0] | null>(null);
+  const navigate = useNavigate();
   const { t } = useI18n();
+  const { setSelectedRoom } = useBooking();
+  const [rooms, setRooms] = useState<Accommodation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const openEmail = (accommodation: typeof accommodations[0]) => {
-    const subject = encodeURIComponent(`Interés en ${accommodation.title}`);
-    const body = encodeURIComponent(
-      `Hola, me interesa la ${accommodation.title}. Precio: ${accommodation.price}€/mes. ¿Podrían darme más información?`
-    );
-    window.location.href = `mailto:info@alojamiento-barcelona.com?subject=${subject}&body=${body}`;
+  useEffect(() => {
+    fetchRooms();
+  }, []);
+
+  const fetchRooms = async () => {
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      const response = await fetch(`${backendUrl}/api/rooms`);
+      if (response.ok) {
+        const data = await response.json();
+        setRooms(data);
+      } else {
+        // Fallback to static data
+        setRooms(accommodations);
+      }
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+      // Fallback to static data
+      setRooms(accommodations);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRoomClick = (accommodation: Accommodation) => {
+    if (accommodation.available) {
+      setSelectedRoom(accommodation);
+      navigate(`/room/${accommodation.id}`);
+    }
   };
 
   return (
@@ -106,12 +55,17 @@ const AccommodationGrid = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {accommodations.map((accommodation) => (
+        {isLoading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {rooms.map((accommodation) => (
             <div
               key={accommodation.id}
               className="bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-elegant transition-smooth cursor-pointer"
-              onClick={() => setSelectedAccommodation(accommodation)}
+              onClick={() => handleRoomClick(accommodation)}
             >
               <div className="relative h-56 overflow-hidden">
                 <img
@@ -160,7 +114,7 @@ const AccommodationGrid = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     if (accommodation.available === false) return;
-                    openEmail(accommodation);
+                    handleRoomClick(accommodation);
                   }}
                   disabled={accommodation.available === false}
                   className={`w-full font-semibold ${
@@ -169,73 +123,14 @@ const AccommodationGrid = () => {
                       : "gradient-accent text-accent-foreground"
                   }`}
                 >
-                  {accommodation.available === false ? t("label_full") : t("btn_contact_email")}
+                  {accommodation.available === false ? t("label_full") : t("btn_book_now")}
                 </Button>
               </div>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
-
-      {/* Modal de detalles */}
-      <Dialog open={!!selectedAccommodation} onOpenChange={() => setSelectedAccommodation(null)}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>{selectedAccommodation?.title}</DialogTitle>
-          </DialogHeader>
-          {selectedAccommodation && (
-            <div className="space-y-4">
-              <img
-                src={selectedAccommodation.image}
-                alt={selectedAccommodation.title}
-                className="w-full h-64 object-cover rounded-lg"
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">Tipo</p>
-                  <p className="font-semibold">{selectedAccommodation.type}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Precio</p>
-                  <p className="font-semibold">{selectedAccommodation.price}€/mes</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Ciudad</p>
-                  <p className="font-semibold">{selectedAccommodation.city}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Distancia</p>
-                  <p className="font-semibold">{selectedAccommodation.distance}</p>
-                </div>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-2">Características</p>
-                <div className="flex flex-wrap gap-2">
-                  {selectedAccommodation.features.map((feature, index) => (
-                    <span key={index} className="bg-muted px-3 py-1 rounded-full text-sm">
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <Button
-                onClick={() => {
-                  if (!selectedAccommodation || selectedAccommodation.available === false) return;
-                  openEmail(selectedAccommodation);
-                }}
-                disabled={selectedAccommodation?.available === false}
-                className={`w-full font-semibold ${
-                  selectedAccommodation?.available === false
-                    ? "bg-muted text-muted-foreground cursor-not-allowed"
-                    : "gradient-accent text-accent-foreground"
-                }`}
-              >
-                {selectedAccommodation?.available === false ? t("label_full") : t("btn_contact_email")}
-              </Button>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };
