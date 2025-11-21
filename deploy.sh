@@ -61,7 +61,7 @@ fi
 
 # Step 2: Push to GitHub
 echo -e "${BLUE}📤 Pushing to GitHub...${NC}"
-CURRENT_BRANCH=$(git branch --show-current)
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 # Try to push (credentials should be in remote URL or git config)
 if git push origin "$CURRENT_BRANCH" 2>&1; then
