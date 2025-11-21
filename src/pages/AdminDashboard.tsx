@@ -1722,11 +1722,15 @@ const AdminDashboard = () => {
                                     print-color-adjust: exact !important;
                                   }
                                   
-                                  /* Fixed Watermark - Consistent across all browsers */
+                                  /* Watermark - Part of receipt, always in same position */
+                                  .print-receipt-container {
+                                    position: relative !important;
+                                  }
+                                  
                                   .watermark-logo-print {
                                     display: block !important;
                                     visibility: visible !important;
-                                    position: fixed !important;
+                                    position: absolute !important;
                                     top: 50% !important;
                                     left: 50% !important;
                                     transform: translate(-50%, -50%) rotate(-45deg) !important;
@@ -1763,13 +1767,6 @@ const AdminDashboard = () => {
                                   /* Legacy support for old watermark class */
                                   .watermark-logo {
                                     display: none !important;
-                                  }
-                                  
-                                  /* Ensure watermark is visible in print */
-                                  .watermark-logo-print {
-                                    display: block !important;
-                                    visibility: visible !important;
-                                    opacity: 0.15 !important;
                                   }
                                   
                                   body::before {

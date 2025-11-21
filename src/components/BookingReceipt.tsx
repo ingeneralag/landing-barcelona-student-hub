@@ -61,12 +61,12 @@ const BookingReceipt = ({
   const logoUrl = getLogoUrl();
 
   return (
-    <div className="space-y-6 relative">
-      {/* Watermark - Fixed position for all browsers - Only visible in print */}
+    <div className="space-y-6 relative print-receipt-container" style={{ position: 'relative', minHeight: '100vh' }}>
+      {/* Watermark - Part of the receipt, always present, visible only in print */}
       <div 
         className="watermark-logo-print"
         style={{
-          position: 'fixed',
+          position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%) rotate(-45deg)',
@@ -74,8 +74,8 @@ const BookingReceipt = ({
           height: '500px',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.15,
-          display: 'none', // Hidden on screen, shown in print via CSS
+          opacity: 0,
+          display: 'block', // Always in DOM, hidden on screen via opacity
         }}
       >
         <img 
