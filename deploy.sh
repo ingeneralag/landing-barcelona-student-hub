@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Script للرفع التلقائي على السيرفر
-# Usage: ./deploy.sh
+# Script للرفع التلقائي على السيرفر عبر GitHub
+# Usage: ./deploy.sh [commit message]
 
 set -e  # Exit on error
 
@@ -9,7 +9,10 @@ set -e  # Exit on error
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
+
+COMMIT_MSG="${1:-Update: $(date +'%Y-%m-%d %H:%M:%S')}"
 
 echo -e "${GREEN}🚀 Starting deployment...${NC}\n"
 
@@ -45,32 +48,58 @@ if [ -z "$SSH_HOST" ] || [ -z "$SSH_USER" ]; then
     exit 1
 fi
 
-echo -e "${GREEN}📦 Building project...${NC}"
-npm run build
+# Step 1: Check Git status
+echo -e "${BLUE}📋 Checking Git status...${NC}"
+if [ -n "$(git status --porcelain)" ]; then
+    echo -e "${YELLOW}⚠️  Uncommitted changes detected. Committing...${NC}"
+    git add .
+    git commit -m "$COMMIT_MSG"
+    echo -e "${GREEN}✅ Changes committed${NC}"
+else
+    echo -e "${GREEN}✅ No uncommitted changes${NC}"
+fi
 
-echo -e "${GREEN}📤 Uploading files to server...${NC}"
+# Step 2: Push to GitHub
+echo -e "${BLUE}📤 Pushing to GitHub...${NC}"
+CURRENT_BRANCH=$(git branch --show-current)
 
-# Create SSH command
+# Try to push (credentials should be in remote URL or git config)
+if git push origin "$CURRENT_BRANCH" 2>&1; then
+    echo -e "${GREEN}✅ Pushed to GitHub successfully${NC}"
+else
+    echo -e "${YELLOW}⚠️  Push failed, trying with force-with-lease...${NC}"
+    if git push --force-with-lease origin "$CURRENT_BRANCH" 2>&1; then
+        echo -e "${GREEN}✅ Pushed to GitHub successfully (force)${NC}"
+    else
+        echo -e "${RED}❌ Failed to push to GitHub${NC}"
+        echo -e "${YELLOW}Do you want to continue with deployment anyway? (y/n)${NC}"
+        read -r response
+        if [[ ! "$response" =~ ^[Yy]$ ]]; then
+            exit 1
+        fi
+    fi
+fi
+
+# Step 3: Connect to server and pull from GitHub
+echo -e "${BLUE}🔌 Connecting to server...${NC}"
 SSH_CMD="ssh -p ${SSH_PORT:-22} -i ${SSH_KEY_PATH:-~/.ssh/id_rsa} ${SSH_USER}@${SSH_HOST}"
 
-# Upload files using rsync
-rsync -avz --exclude 'node_modules' \
-    --exclude '.git' \
-    --exclude '.env' \
-    --exclude '.env.local' \
-    --exclude 'dist' \
-    --exclude '.DS_Store' \
-    -e "ssh -p ${SSH_PORT:-22} -i ${SSH_KEY_PATH:-~/.ssh/id_rsa}" \
-    ./ ${SSH_USER}@${SSH_HOST}:${SERVER_PROJECT_PATH}/
+# Check if git is initialized on server
+echo -e "${BLUE}📥 Pulling latest changes from GitHub on server...${NC}"
+$SSH_CMD "cd ${SERVER_PROJECT_PATH} && git pull origin $CURRENT_BRANCH || (echo 'Git pull failed, trying to fetch and reset...' && git fetch origin && git reset --hard origin/$CURRENT_BRANCH)"
 
-echo -e "${GREEN}📥 Installing dependencies on server...${NC}"
-$SSH_CMD "cd ${SERVER_PROJECT_PATH} && npm install --production"
+# Step 4: Install dependencies
+echo -e "${GREEN}📦 Installing dependencies on server...${NC}"
+$SSH_CMD "cd ${SERVER_PROJECT_PATH} && npm install"
 
-echo -e "${GREEN}🔨 Building on server...${NC}"
+# Step 5: Build project
+echo -e "${GREEN}🔨 Building project on server...${NC}"
 $SSH_CMD "cd ${SERVER_PROJECT_PATH} && ${BUILD_COMMAND}"
 
+# Step 6: Restart server
 echo -e "${GREEN}🔄 Restarting server...${NC}"
 $SSH_CMD "cd ${SERVER_BACKEND_PATH} && ${RESTART_BACKEND}"
 
 echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
+echo -e "${BLUE}🌐 Your changes are now live on the server${NC}"
 
