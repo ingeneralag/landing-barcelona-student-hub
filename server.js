@@ -32,6 +32,18 @@ app.use(express.json());
 // Serve static files from public directory
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
+// Serve static files from dist directory (Vite build output)
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Handle SPA routing - serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  // Don't serve index.html for API routes
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
