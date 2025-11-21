@@ -316,7 +316,7 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
                       },
                     },
                     wallets: {
-                      applePay: 'auto',
+                      applePay: 'always',
                       googlePay: 'auto',
                     },
                   }}
