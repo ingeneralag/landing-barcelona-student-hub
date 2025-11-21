@@ -136,9 +136,18 @@ const requireAuth = (req, res, next) => {
 // Auth Routes
 app.post('/api/auth/login', (req, res) => {
   try {
+    // Set headers for Safari compatibility
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    
     const { username, password } = req.body;
     
+    console.log('Login attempt:', { username, hasPassword: !!password });
+    
     if (!username || !password) {
+      console.log('Missing credentials');
       return res.status(400).json({ error: 'Username and password are required' });
     }
 
@@ -158,6 +167,8 @@ app.post('/api/auth/login', (req, res) => {
     // Create session
     const sessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     sessions.set(sessionId, { id: user.id, username: user.username });
+    
+    console.log('Login successful for user:', username, 'sessionId:', sessionId);
     
     res.json({ sessionId, username: user.username });
   } catch (error) {
