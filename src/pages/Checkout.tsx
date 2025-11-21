@@ -510,6 +510,7 @@ const Checkout = () => {
         },
         locale: 'en' as const,
         loader: 'auto' as const,
+        paymentMethodTypes: ['card', 'apple_pay'],
       }
     : undefined;
 
