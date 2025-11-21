@@ -37,7 +37,7 @@ app.use(cors({
 }));
 
 // Handle preflight requests explicitly for Safari
-app.options('*', (req, res) => {
+app.options(/.*/, (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
