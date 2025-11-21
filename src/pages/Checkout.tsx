@@ -301,6 +301,11 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
                   }}
                   onLoadError={(error) => {
                     console.error('PaymentElement load error:', error);
+                    toast({
+                      title: t("error"),
+                      description: error.message || "Failed to load payment methods. Please check your Stripe configuration.",
+                      variant: "destructive",
+                    });
                   }}
                   options={{
                     layout: "tabs",
@@ -468,11 +473,18 @@ const Checkout = () => {
           });
           setClientSecret(data.clientSecret);
         } else {
-          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+          const errorText = await response.text();
+          let errorData;
+          try {
+            errorData = JSON.parse(errorText);
+          } catch {
+            errorData = { error: errorText || 'Unknown error' };
+          }
           console.error('Failed to create payment intent:', response.status, errorData);
+          console.error('Response text:', errorText);
           toast({
             title: t("error"),
-            description: errorData.error || t("payment_intent_failed"),
+            description: errorData.error || errorData.message || t("payment_intent_failed"),
             variant: "destructive",
           });
         }
