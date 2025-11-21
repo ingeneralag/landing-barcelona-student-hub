@@ -160,6 +160,8 @@ All colors MUST be HSL.
     transform: translate(-50%, -50%) rotate(-45deg) !important;
     width: 500px !important;
     height: 500px !important;
+    max-width: 500px !important;
+    max-height: 500px !important;
     z-index: 0 !important;
     pointer-events: none !important;
     opacity: 0.15 !important;
@@ -169,14 +171,18 @@ All colors MUST be HSL.
     page-break-inside: avoid !important;
     page-break-after: avoid !important;
     page-break-before: avoid !important;
+    overflow: visible !important;
   }
 
   .watermark-logo-print img {
     width: 100% !important;
     height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
     object-fit: contain !important;
     display: block !important;
     visibility: visible !important;
+    opacity: 1 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;

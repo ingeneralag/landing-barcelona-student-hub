@@ -397,6 +397,13 @@ const BookingSuccess = () => {
                     display: none !important;
                   }
                   
+                  /* Ensure watermark is visible in print */
+                  .watermark-logo-print {
+                    display: block !important;
+                    visibility: visible !important;
+                    opacity: 0.15 !important;
+                  }
+                  
                   body::before {
                     display: none !important;
                   }

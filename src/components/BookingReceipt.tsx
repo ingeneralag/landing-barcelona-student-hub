@@ -62,7 +62,7 @@ const BookingReceipt = ({
 
   return (
     <div className="space-y-6 relative">
-      {/* Watermark - Fixed position for all browsers */}
+      {/* Watermark - Fixed position for all browsers - Only visible in print */}
       <div 
         className="watermark-logo-print"
         style={{
@@ -75,7 +75,7 @@ const BookingReceipt = ({
           zIndex: 0,
           pointerEvents: 'none',
           opacity: 0.15,
-          display: 'none', // Hidden on screen, shown in print
+          display: 'none', // Hidden on screen, shown in print via CSS
         }}
       >
         <img 
@@ -85,6 +85,7 @@ const BookingReceipt = ({
             width: '100%',
             height: '100%',
             objectFit: 'contain',
+            display: 'block',
           }}
           onError={(e) => {
             console.error('Failed to load watermark image:', logoUrl);
