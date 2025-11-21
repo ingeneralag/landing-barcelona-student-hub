@@ -334,7 +334,8 @@ const AdminDashboard = () => {
 
   const handleSaveRoom = async () => {
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
       
       // Upload image if a file is selected
       let imageUrl = roomForm.image;
