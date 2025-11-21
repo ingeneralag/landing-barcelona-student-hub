@@ -434,7 +434,8 @@ const Checkout = () => {
         const total = calculateTotal();
         
         // Backend endpoint for creating PaymentIntent
-        const backendBaseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4242';
+        // Use same origin if VITE_BACKEND_URL is not set (for production)
+        const backendBaseUrl = import.meta.env.VITE_BACKEND_URL || window.location.origin;
         const backendUrl = `${backendBaseUrl}/api/create-payment-intent`;
         
         console.log('Creating payment intent with:', {
