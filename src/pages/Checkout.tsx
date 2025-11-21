@@ -40,6 +40,42 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
     phone: "",
   });
 
+  // Hide Stripe DevTools overlay
+  useEffect(() => {
+    const hideStripeDevTools = () => {
+      // Hide iframes with Stripe DevTools
+      const iframes = document.querySelectorAll('iframe[src*="stripe.com"]');
+      iframes.forEach((iframe) => {
+        const htmlIframe = iframe as HTMLIFrameElement;
+        if (htmlIframe.title?.includes('Stripe') || htmlIframe.title?.includes('Developers')) {
+          htmlIframe.style.display = 'none';
+          htmlIframe.style.visibility = 'hidden';
+          htmlIframe.style.opacity = '0';
+          htmlIframe.style.pointerEvents = 'none';
+        }
+      });
+
+      // Hide parent divs containing Stripe DevTools
+      const containers = document.querySelectorAll('div[style*="position: fixed"]');
+      containers.forEach((container) => {
+        const htmlContainer = container as HTMLElement;
+        const iframe = htmlContainer.querySelector('iframe[src*="stripe.com"]');
+        if (iframe) {
+          htmlContainer.style.display = 'none';
+          htmlContainer.style.visibility = 'hidden';
+          htmlContainer.style.opacity = '0';
+          htmlContainer.style.pointerEvents = 'none';
+        }
+      });
+    };
+
+    // Run immediately and on interval to catch dynamically added elements
+    hideStripeDevTools();
+    const interval = setInterval(hideStripeDevTools, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     // Give time for localStorage to load
     const timer = setTimeout(() => {
