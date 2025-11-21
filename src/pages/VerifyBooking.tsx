@@ -51,7 +51,8 @@ const VerifyBooking = () => {
     setBooking(null);
 
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4242';
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : 'http://localhost:4242');
       const response = await fetch(`${backendUrl}/api/bookings/verify/${bookingCode.toUpperCase().trim()}`);
 
       if (response.ok) {

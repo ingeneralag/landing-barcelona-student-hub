@@ -33,7 +33,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!sessionIdToCheck) return;
     
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
       const response = await fetch(`${backendUrl}/api/auth/check`, {
         headers: {
           Authorization: `Bearer ${sessionIdToCheck}`,
@@ -104,7 +105,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     if (sessionId) {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+        const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+          (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
         await fetch(`${backendUrl}/api/auth/logout`, {
           method: "POST",
           headers: {
