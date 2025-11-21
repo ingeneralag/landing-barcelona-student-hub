@@ -89,7 +89,6 @@ const translations: Translations = {
   terms_and_conditions: { es: "Términos y Condiciones", en: "Terms and Conditions" },
   privacy_policy: { es: "Política de Privacidad", en: "Privacy Policy" },
   and: { es: "y", en: "and" },
-  back: { es: "Volver", en: "Back" },
   last_updated: { es: "Última actualización", en: "Last updated" },
   terms_section_1_title: { es: "1. Aceptación de los Términos", en: "1. Acceptance of Terms" },
   terms_section_1_content: {
