@@ -21,7 +21,17 @@ const AccommodationGrid = () => {
   const fetchRooms = async () => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
-      const response = await fetch(`${backendUrl}/api/rooms`);
+      // Add cache busting parameter and no-cache headers
+      const timestamp = Date.now();
+      const response = await fetch(`${backendUrl}/api/rooms?_t=${timestamp}`, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+        cache: 'no-store', // Prevent browser caching
+      });
       if (response.ok) {
         const data = await response.json();
         setRooms(data);

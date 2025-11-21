@@ -202,6 +202,12 @@ app.use((error, req, res, next) => {
 // Rooms Routes
 app.get('/api/rooms', (req, res) => {
   try {
+    // Set cache control headers to prevent caching
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('ETag', `"${Date.now()}"`); // Add ETag for cache busting
+    
     const rooms = db.prepare('SELECT * FROM rooms ORDER BY city, id').all();
     const formattedRooms = rooms.map(room => ({
       ...room,
@@ -217,6 +223,12 @@ app.get('/api/rooms', (req, res) => {
 
 app.get('/api/rooms/:id', (req, res) => {
   try {
+    // Set cache control headers to prevent caching
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('ETag', `"${Date.now()}"`); // Add ETag for cache busting
+    
     const room = db.prepare('SELECT * FROM rooms WHERE id = ?').get(req.params.id);
     if (!room) {
       return res.status(404).json({ error: 'Room not found' });

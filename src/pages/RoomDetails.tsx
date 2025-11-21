@@ -52,7 +52,17 @@ const RoomDetails = () => {
     setIsLoading(true);
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
-      const response = await fetch(`${backendUrl}/api/rooms/${id}`);
+      // Add cache busting parameter and no-cache headers
+      const timestamp = Date.now();
+      const response = await fetch(`${backendUrl}/api/rooms/${id}?_t=${timestamp}`, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+        cache: 'no-store', // Prevent browser caching
+      });
       if (response.ok) {
         const data = await response.json();
         setRoom(data);

@@ -190,11 +190,19 @@ const AdminDashboard = () => {
     try {
       const currentSessionId = sessionId || localStorage.getItem("sessionId");
       const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
-      const headers: HeadersInit = {};
+      const timestamp = Date.now();
+      const headers: HeadersInit = {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      };
       if (currentSessionId) {
         headers.Authorization = `Bearer ${currentSessionId}`;
       }
-      const response = await fetch(`${backendUrl}/api/rooms`, { headers });
+      const response = await fetch(`${backendUrl}/api/rooms?_t=${timestamp}`, { 
+        headers,
+        cache: 'no-store', // Prevent browser caching
+      });
       if (response.ok) {
         const data = await response.json();
         setRooms(data);
