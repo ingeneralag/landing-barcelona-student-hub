@@ -1,6 +1,7 @@
 import { MapPin, Bed, CalendarIcon, Euro } from "lucide-react";
 import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
+import logo from "@/assets/logo1212.png";
 
 interface BookingReceiptProps {
   bookingCode: string; // Required - this is the main identifier
@@ -38,8 +39,59 @@ const BookingReceipt = ({
   const checkInDate = typeof checkIn === 'string' ? new Date(checkIn) : checkIn;
   const checkOutDate = typeof checkOut === 'string' ? new Date(checkOut) : checkOut;
 
+  // Get logo URL for watermark
+  const getLogoUrl = () => {
+    if (typeof logo === 'string') {
+      if (logo.startsWith('http') || logo.startsWith('data:')) {
+        return logo;
+      } else if (logo.startsWith('/')) {
+        return window.location.origin + logo;
+      } else {
+        return window.location.origin + '/src/assets/logo1212.png';
+      }
+    }
+    // Try to get from header
+    const headerLogo = document.querySelector('header img[alt*="logo"], header img[alt*="Logo"], header img') as HTMLImageElement;
+    if (headerLogo && headerLogo.src) {
+      return headerLogo.src;
+    }
+    return window.location.origin + '/src/assets/logo1212.png';
+  };
+
+  const logoUrl = getLogoUrl();
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {/* Watermark - Fixed position for all browsers */}
+      <div 
+        className="watermark-logo-print"
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%) rotate(-45deg)',
+          width: '500px',
+          height: '500px',
+          zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.15,
+          display: 'none', // Hidden on screen, shown in print
+        }}
+      >
+        <img 
+          src={logoUrl} 
+          alt="Watermark" 
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+          }}
+          onError={(e) => {
+            console.error('Failed to load watermark image:', logoUrl);
+            (e.target as HTMLImageElement).style.display = 'none';
+          }}
+        />
+      </div>
       {/* Header */}
       <div className="border-b pb-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">

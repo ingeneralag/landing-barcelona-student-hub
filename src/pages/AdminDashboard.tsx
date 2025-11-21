@@ -1443,11 +1443,7 @@ const AdminDashboard = () => {
                           }
                         });
                         
-                        // Add watermark directly to content
-                        const watermarkDiv = document.createElement('div');
-                        watermarkDiv.className = 'watermark-logo';
-                        watermarkDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); width: 500px; height: 500px; z-index: 0; pointer-events: none; opacity: 1;';
-                        content.insertBefore(watermarkDiv, content.firstChild);
+                        // Watermark is now included in BookingReceipt component, no need to add here
                         
                         // Ensure grid classes work in print
                         content.querySelectorAll('[class*="grid"]').forEach(el => {
@@ -1476,21 +1472,14 @@ const AdminDashboard = () => {
                           }
                         }
                         
-                        // Add watermark image to the watermark div
-                        const watermarkImg = document.createElement('img');
-                        watermarkImg.src = logoUrl;
-                        watermarkImg.alt = 'Watermark';
-                        watermarkImg.style.cssText = 'width: 100%; height: 100%; object-fit: contain; opacity: 0.15;';
-                        watermarkImg.onerror = () => {
-                          console.error('Failed to load watermark image:', logoUrl);
-                        };
-                        watermarkImg.onload = () => {
-                          console.log('Watermark image loaded successfully:', logoUrl);
-                        };
-                        
-                        const watermarkDivInContent = content.querySelector('.watermark-logo');
-                        if (watermarkDivInContent) {
-                          watermarkDivInContent.appendChild(watermarkImg);
+                        // Watermark is now included in BookingReceipt component
+                        // Update watermark logo URL in the component if needed
+                        const watermarkDiv = content.querySelector('.watermark-logo-print');
+                        if (watermarkDiv) {
+                          const watermarkImg = watermarkDiv.querySelector('img');
+                          if (watermarkImg) {
+                            (watermarkImg as HTMLImageElement).src = logoUrl;
+                          }
                         }
 
                         // Get the full CSS from BookingSuccess (copy the entire style block)
