@@ -67,12 +67,6 @@ const BookingSuccess = () => {
         const noPrintElements = content.querySelectorAll('.no-print, button, .no-print-button, .animate-ping, .relative > .absolute, .no-print-price');
         noPrintElements.forEach(el => el.remove());
         
-        // Add watermark directly to content
-        const watermarkDiv = document.createElement('div');
-        watermarkDiv.className = 'watermark-logo';
-        watermarkDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); width: 500px; height: 500px; z-index: 0; pointer-events: none; opacity: 1;';
-        content.insertBefore(watermarkDiv, content.firstChild);
-        
         // Remove animation classes
         content.querySelectorAll('[class*="animate"]').forEach(el => {
           el.classList.remove('animate-ping', 'animate-spin');
@@ -91,50 +85,30 @@ const BookingSuccess = () => {
           }
         });
         
-        // Convert logo to absolute URL for watermark
-        // Try multiple methods to get the logo URL
-        let logoUrl = '';
-        
-        // Method 1: Try to get from Header component
-        const headerLogo = document.querySelector('header img[alt*="logo"], header img[alt*="Logo"], header img') as HTMLImageElement;
-        if (headerLogo && headerLogo.src) {
-          logoUrl = headerLogo.src;
-        } else {
-          // Method 2: Try to get from imported logo
-          // In Vite, imported images get a URL like /src/assets/logo1212.png or a data URL
+        // Watermark is now included in BookingReceipt component
+        // Update watermark logo URL in the component if needed
+        const logoUrl = (() => {
+          const headerLogo = document.querySelector('header img[alt*="logo"], header img[alt*="Logo"], header img') as HTMLImageElement;
+          if (headerLogo && headerLogo.src) {
+            return headerLogo.src;
+          }
           if (typeof logo === 'string') {
             if (logo.startsWith('http') || logo.startsWith('data:')) {
-              logoUrl = logo;
+              return logo;
             } else if (logo.startsWith('/')) {
-              logoUrl = window.location.origin + logo;
-            } else {
-              // Try common paths
-              logoUrl = window.location.origin + '/src/assets/logo1212.png';
+              return window.location.origin + logo;
             }
-          } else {
-            // If logo is an object (module), try to get the default export
-            logoUrl = window.location.origin + '/src/assets/logo1212.png';
+          }
+          return window.location.origin + '/src/assets/logo1212.png';
+        })();
+        
+        const watermarkDiv = content.querySelector('.watermark-logo-print');
+        if (watermarkDiv) {
+          const watermarkImg = watermarkDiv.querySelector('img');
+          if (watermarkImg) {
+            (watermarkImg as HTMLImageElement).src = logoUrl;
           }
         }
-        
-        // Add watermark image to the watermark div
-        const watermarkImg = document.createElement('img');
-        watermarkImg.src = logoUrl;
-        watermarkImg.alt = 'Watermark';
-        watermarkImg.style.cssText = 'width: 100%; height: 100%; object-fit: contain; opacity: 0.15;';
-        watermarkImg.onerror = () => {
-          console.error('Failed to load watermark image:', logoUrl);
-        };
-        watermarkImg.onload = () => {
-          console.log('Watermark image loaded successfully:', logoUrl);
-        };
-        
-        const watermarkDivInContent = content.querySelector('.watermark-logo');
-        if (watermarkDivInContent) {
-          watermarkDivInContent.appendChild(watermarkImg);
-        }
-        
-        console.log('Watermark logo URL:', logoUrl);
         
         // Ensure grid classes work in print
         content.querySelectorAll('[class*="grid"]').forEach(el => {
