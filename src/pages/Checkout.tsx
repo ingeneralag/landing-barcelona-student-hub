@@ -597,9 +597,14 @@ const Checkout = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <div className="container mx-auto px-4 py-8">
-        <Button variant="ghost" onClick={() => navigate(-1)} className="mb-6">
-          ← {t("back")}
+      <div className="container mx-auto px-4 py-8 pt-24 md:pt-28">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate(-1)} 
+          className="mb-4 md:mb-6 text-sm md:text-base px-2 md:px-4 py-1.5 md:py-2 flex items-center gap-1 md:gap-2 hover:bg-muted/50 transition-colors"
+        >
+          <span className="text-base md:text-lg">←</span>
+          <span className="whitespace-nowrap">{t("back")}</span>
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">

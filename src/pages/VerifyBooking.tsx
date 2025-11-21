@@ -617,10 +617,14 @@ const VerifyBooking = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <div className="container mx-auto px-4 py-8">
-        <Button variant="ghost" onClick={() => navigate(-1)} className="mb-6">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          {t("back")}
+      <div className="container mx-auto px-4 py-8 pt-24 md:pt-28">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate(-1)} 
+          className="mb-4 md:mb-6 text-sm md:text-base px-2 md:px-4 py-1.5 md:py-2 flex items-center gap-1 md:gap-2 hover:bg-muted/50 transition-colors"
+        >
+          <ArrowLeft className="h-3 w-3 md:h-4 md:w-4" />
+          <span className="whitespace-nowrap">{t("back")}</span>
         </Button>
 
         <div className="max-w-2xl mx-auto">
