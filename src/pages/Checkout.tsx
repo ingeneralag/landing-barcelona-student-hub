@@ -121,7 +121,7 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
       if (error) {
         // Save failed booking attempt
         try {
-          const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4242';
+          const backendUrl = import.meta.env.VITE_BACKEND_URL || window.location.origin;
           const failedBookingId = `BK-FAILED-${Date.now().toString(36).toUpperCase()}`;
           
           await fetch(`${backendUrl}/api/bookings`, {
@@ -167,7 +167,7 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
 
         // Save booking to database
         try {
-          const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4242';
+          const backendUrl = import.meta.env.VITE_BACKEND_URL || window.location.origin;
           const bookingResponse = await fetch(`${backendUrl}/api/bookings`, {
             method: 'POST',
             headers: {
@@ -547,7 +547,7 @@ const Checkout = () => {
                       {t("stripe_setup_instructions")}
                     </p>
                     <p className="text-xs text-muted-foreground mt-4">
-                      Backend URL: {import.meta.env.VITE_BACKEND_URL || 'http://localhost:4242'}
+                      Backend URL: {import.meta.env.VITE_BACKEND_URL || window.location.origin}
                       <br />
                       Client Secret: {clientSecret ? 'Present' : 'Missing'}
                     </p>
