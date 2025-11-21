@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide Stripe Developers DevTools */
+iframe[src*="stripe.com"][title*="Stripe"],
+iframe[src*="stripe.com"][title*="Developers"],
+div[data-testid*="stripe"],
+div[id*="stripe-devtools"],
+.stripe-devtools,
+[class*="stripe-devtools"],
+[class*="StripeDevTools"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  left: -9999px !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */

@@ -533,6 +533,8 @@ const Checkout = () => {
   const options = clientSecret
     ? {
         clientSecret,
+        // Disable Stripe DevTools in production
+        ...(import.meta.env.PROD && { devTools: false }),
         appearance: {
           theme: "stripe" as const,
           variables: {
