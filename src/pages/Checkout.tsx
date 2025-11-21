@@ -18,9 +18,12 @@ import { useI18n } from "@/i18n";
 import { toast } from "@/hooks/use-toast";
 
 // Initialize Stripe with publishable key from environment
-const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "REPLACED_PUBLISHABLE_KEY";
+const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+if (!stripePublishableKey) {
+  console.error('ERROR: VITE_STRIPE_PUBLISHABLE_KEY environment variable is not set!');
+}
 console.log('Stripe Publishable Key:', stripePublishableKey ? `${stripePublishableKey.substring(0, 20)}...` : 'Not found');
-const stripePromise = loadStripe(stripePublishableKey);
+const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null;
 
 const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
   const stripe = useStripe();
@@ -514,7 +517,7 @@ const Checkout = () => {
                   <p>{t("loading")}</p>
                 </CardContent>
               </Card>
-            ) : options && clientSecret ? (
+            ) : options && clientSecret && stripePromise ? (
               <Elements stripe={stripePromise} options={options}>
                 <CheckoutForm clientSecret={clientSecret} />
               </Elements>

@@ -19,7 +19,12 @@ const app = express();
 const PORT = process.env.PORT || 4242;
 
 // Initialize Stripe with secret key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'REPLACED_SECRET_KEY');
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeSecretKey) {
+  console.error('ERROR: STRIPE_SECRET_KEY environment variable is not set!');
+  process.exit(1);
+}
+const stripe = new Stripe(stripeSecretKey);
 
 app.use(cors());
 app.use(express.json());
