@@ -305,7 +305,7 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
           ) : (
             <div className="space-y-4">
               <div className="relative border-2 border-orange-200 rounded-2xl p-6 md:p-8 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 shadow-lg min-h-[280px] transition-all duration-300 hover:shadow-xl hover:border-orange-300 overflow-hidden">
-                <div className="absolute top-2.5 right-2.5 md:top-3 md:right-3 z-10 flex items-center gap-1 md:gap-1.5 text-[9px] sm:text-[10px] md:text-xs text-orange-700 bg-orange-100/95 backdrop-blur-sm px-2 md:px-2.5 py-0.5 md:py-1 rounded-full font-semibold shadow-md border border-orange-200/60 whitespace-nowrap">
+                <div className="absolute top-1 right-2.5 md:top-1.5 md:right-3 z-10 flex items-center gap-1 md:gap-1.5 text-[9px] sm:text-[10px] md:text-xs text-orange-700 bg-orange-100/95 backdrop-blur-sm px-2 md:px-2.5 py-0.5 md:py-1 rounded-full font-semibold shadow-md border border-orange-200/60 whitespace-nowrap">
                   <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
