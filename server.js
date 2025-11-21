@@ -36,11 +36,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Handle SPA routing - serve index.html for all non-API routes
-app.get('*', (req, res) => {
-  // Don't serve index.html for API routes
-  if (req.path.startsWith('/api/')) {
-    return res.status(404).json({ error: 'Not found' });
-  }
+// Must be after all API routes
+app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
