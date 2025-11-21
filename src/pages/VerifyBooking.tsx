@@ -376,33 +376,54 @@ const VerifyBooking = () => {
                     print-color-adjust: exact !important;
                   }
                   
-                  .watermark-logo {
+                  /* Fixed Watermark - Consistent across all browsers */
+                  .watermark-logo-print {
+                    display: block !important;
+                    visibility: visible !important;
                     position: fixed !important;
                     top: 50% !important;
                     left: 50% !important;
                     transform: translate(-50%, -50%) rotate(-45deg) !important;
                     width: 500px !important;
                     height: 500px !important;
+                    max-width: 500px !important;
+                    max-height: 500px !important;
                     z-index: 0 !important;
                     pointer-events: none !important;
-                    -webkit-print-color-adjust: exact !important;
-                    print-color-adjust: exact !important;
-                    color-adjust: exact !important;
-                    page-break-inside: avoid !important;
-                    display: block !important;
-                    visibility: visible !important;
-                  }
-                  
-                  .watermark-logo img {
-                    width: 100% !important;
-                    height: 100% !important;
-                    object-fit: contain !important;
                     opacity: 0.15 !important;
                     -webkit-print-color-adjust: exact !important;
                     print-color-adjust: exact !important;
                     color-adjust: exact !important;
+                    page-break-inside: avoid !important;
+                    page-break-after: avoid !important;
+                    page-break-before: avoid !important;
+                    overflow: visible !important;
+                  }
+                  
+                  .watermark-logo-print img {
+                    width: 100% !important;
+                    height: 100% !important;
+                    max-width: 100% !important;
+                    max-height: 100% !important;
+                    object-fit: contain !important;
                     display: block !important;
                     visibility: visible !important;
+                    opacity: 1 !important;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                    color-adjust: exact !important;
+                  }
+                  
+                  /* Legacy support for old watermark class */
+                  .watermark-logo {
+                    display: none !important;
+                  }
+                  
+                  /* Ensure watermark is visible in print */
+                  .watermark-logo-print {
+                    display: block !important;
+                    visibility: visible !important;
+                    opacity: 0.15 !important;
                   }
                   
                   body::before {
