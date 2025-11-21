@@ -293,7 +293,13 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="border-2 border-orange-100 rounded-xl p-6 bg-gradient-to-br from-orange-50/50 to-white shadow-sm min-h-[250px] transition-all hover:shadow-md">
+              <div className="relative border-2 border-orange-200 rounded-2xl p-8 bg-gradient-to-br from-orange-50 via-white to-orange-50/30 shadow-lg min-h-[280px] transition-all duration-300 hover:shadow-xl hover:border-orange-300">
+                <div className="absolute top-4 right-4 flex items-center gap-2 text-xs text-orange-600 bg-orange-100 px-3 py-1.5 rounded-full font-medium">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                  Secure Payment
+                </div>
                 <PaymentElement 
                   onReady={() => {
                     console.log('PaymentElement is ready');
@@ -508,30 +514,56 @@ const Checkout = () => {
         appearance: {
           theme: "stripe" as const,
           variables: {
-            colorPrimary: "#f97316", // Orange color matching your theme
+            colorPrimary: "#f97316",
             colorBackground: "#ffffff",
             colorText: "#1f2937",
             colorDanger: "#ef4444",
-            fontFamily: "system-ui, -apple-system, sans-serif",
+            colorSuccess: "#22c55e",
+            fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif",
+            fontSizeBase: "16px",
             spacingUnit: "4px",
-            borderRadius: "8px",
+            borderRadius: "12px",
+            colorTextSecondary: "#6b7280",
+            colorTextPlaceholder: "#9ca3af",
           },
           rules: {
             ".Input": {
               borderColor: "#e5e7eb",
-              boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+              borderWidth: "1.5px",
+              boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+              transition: "all 0.2s ease",
             },
             ".Input:focus": {
               borderColor: "#f97316",
-              boxShadow: "0 0 0 3px rgba(249, 115, 22, 0.1)",
+              boxShadow: "0 0 0 3px rgba(249, 115, 22, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.1)",
+            },
+            ".Input:hover": {
+              borderColor: "#f97316",
             },
             ".Tab": {
-              borderRadius: "8px",
-              padding: "12px 16px",
+              borderRadius: "10px",
+              padding: "14px 20px",
+              fontWeight: "500",
+              borderWidth: "2px",
+              transition: "all 0.2s ease",
+            },
+            ".Tab:hover": {
+              backgroundColor: "#fff7ed",
             },
             ".Tab--selected": {
               backgroundColor: "#fff7ed",
               borderColor: "#f97316",
+              color: "#f97316",
+              boxShadow: "0 2px 4px 0 rgba(249, 115, 22, 0.1)",
+            },
+            ".Label": {
+              fontWeight: "600",
+              fontSize: "14px",
+              marginBottom: "8px",
+            },
+            ".Error": {
+              color: "#ef4444",
+              fontSize: "13px",
             },
           },
         },
