@@ -5,11 +5,15 @@
 /* Hide Stripe Developers DevTools */
 iframe[src*="stripe.com"][title*="Stripe"],
 iframe[src*="stripe.com"][title*="Developers"],
+iframe[src*="stripe.com"][title*="stripe Developers"],
 div[data-testid*="stripe"],
 div[id*="stripe-devtools"],
+div[class*="StripeDevTools"],
 .stripe-devtools,
 [class*="stripe-devtools"],
-[class*="StripeDevTools"] {
+[class*="StripeDevTools"],
+[data-stripe-devtools],
+div[style*="position: fixed"][style*="z-index"][style*="bottom"]:has(iframe[src*="stripe.com"]) {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -19,6 +23,12 @@ div[id*="stripe-devtools"],
   width: 0 !important;
   height: 0 !important;
   overflow: hidden !important;
+  z-index: -9999 !important;
+}
+
+/* Additional CSS to hide Stripe DevTools overlay */
+body > div[style*="position: fixed"]:has(iframe[src*="stripe.com"]) {
+  display: none !important;
 }
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
