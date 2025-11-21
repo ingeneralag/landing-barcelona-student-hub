@@ -41,13 +41,24 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
   });
 
   useEffect(() => {
-    if (!selectedRoom || !bookingDates.checkIn || !bookingDates.checkOut) {
-      navigate("/");
-    }
+    // Give time for localStorage to load
+    const timer = setTimeout(() => {
+      if (!selectedRoom || !bookingDates.checkIn || !bookingDates.checkOut) {
+        navigate("/");
+      }
+    }, 200);
+    return () => clearTimeout(timer);
   }, [selectedRoom, bookingDates, navigate]);
 
   if (!selectedRoom || !bookingDates.checkIn || !bookingDates.checkOut) {
-    return null;
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading booking details...</p>
+        </div>
+      </div>
+    );
   }
 
   const calculateNights = () => {
@@ -407,13 +418,24 @@ const Checkout = () => {
   const { t } = useI18n();
 
   useEffect(() => {
-    if (!selectedRoom || !bookingDates.checkIn || !bookingDates.checkOut) {
-      navigate("/");
-    }
+    // Give time for localStorage to load
+    const timer = setTimeout(() => {
+      if (!selectedRoom || !bookingDates.checkIn || !bookingDates.checkOut) {
+        navigate("/");
+      }
+    }, 200);
+    return () => clearTimeout(timer);
   }, [selectedRoom, bookingDates, navigate]);
 
   if (!selectedRoom || !bookingDates.checkIn || !bookingDates.checkOut) {
-    return null;
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading booking details...</p>
+        </div>
+      </div>
+    );
   }
 
   const calculateNights = () => {
