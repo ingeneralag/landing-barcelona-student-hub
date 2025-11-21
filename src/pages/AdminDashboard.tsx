@@ -237,7 +237,8 @@ const AdminDashboard = () => {
     console.log('Fetching bookings with sessionId:', currentSessionId);
 
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
       const response = await fetch(`${backendUrl}/api/bookings`, {
         headers: {
           Authorization: `Bearer ${currentSessionId}`,
@@ -299,7 +300,8 @@ const AdminDashboard = () => {
 
     setIsUploadingImage(true);
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
       const formData = new FormData();
       formData.append('image', selectedImageFile);
 
@@ -435,7 +437,8 @@ const AdminDashboard = () => {
     }
 
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
       const url = `${backendUrl}/api/rooms/${roomIdToDelete}${deleteBookings ? '?deleteBookings=true' : ''}`;
       const response = await fetch(url, {
         method: "DELETE",
@@ -559,7 +562,8 @@ const AdminDashboard = () => {
     }
 
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
       const response = await fetch(`${backendUrl}/api/bookings/${deleteBookingId}`, {
         method: "DELETE",
         headers: {
@@ -920,7 +924,8 @@ const AdminDashboard = () => {
                       
                       // If not authenticated, try to check auth first
                       if (!isAuthenticated) {
-                        const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+                        const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+                          (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
                         const checkResponse = await fetch(`${backendUrl}/api/auth/check`, {
                           headers: {
                             Authorization: `Bearer ${currentSessionId}`,
@@ -938,7 +943,8 @@ const AdminDashboard = () => {
                         }
                       }
 
-                      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+                      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+                        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
                       const bookingId = `BK-${Date.now().toString(36).toUpperCase()}`;
                       
                       console.log('Manual booking - Making request to:', `${backendUrl}/api/bookings/manual`);
