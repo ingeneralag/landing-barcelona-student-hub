@@ -508,6 +508,7 @@ const Checkout = () => {
           theme: "stripe" as const,
         },
         locale: 'en' as const,
+        loader: 'auto' as const,
       }
     : undefined;
 
