@@ -21,7 +21,7 @@ npm run deploy
 أنشئ ملف `.env` في مجلد المشروع أو اضبط متغيرات البيئة في إعدادات السيرفر:
 
 ```env
-STRIPE_SECRET_KEY=sk_test_51MPTKxDUf5Zc7RkNZOwhMEPJiEpIIJM2PidsWXOOcso69xp3Dyde489v5CaxhYLFduo3AUEZYPc3LdVHmrWSlJwO00ZPFY1YhW
+STRIPE_SECRET_KEY=sk_test_YOUR_SECRET_KEY_HERE
 PORT=4242
 ```
 
@@ -29,7 +29,7 @@ PORT=4242
 أضف هذه المتغيرات في إعدادات البيئة أو في ملف `.env`:
 
 ```env
-VITE_STRIPE_PUBLISHABLE_KEY=pk_test_51MPTKxDUf5Zc7RkNe9vSRUJSdLItM2otLFjNhTZQBzxCst28OCVl1JGwisTHaQjG1qSrB5XXJtK3D9IKE62SJEMV003h9mkbu2
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_PUBLISHABLE_KEY_HERE
 VITE_BACKEND_URL=https://alojamiento-barcelona.com
 ```
 
