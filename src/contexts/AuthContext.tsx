@@ -62,7 +62,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      // Use window.location.origin in production, fallback to env or localhost
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
       console.log('Attempting login to:', `${backendUrl}/api/auth/login`);
       console.log('Username:', username);
       

@@ -189,7 +189,8 @@ const AdminDashboard = () => {
     setIsLoadingData(true);
     try {
       const currentSessionId = sessionId || localStorage.getItem("sessionId");
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
       const timestamp = Date.now();
       const headers: HeadersInit = {
         'Cache-Control': 'no-cache, no-store, must-revalidate',

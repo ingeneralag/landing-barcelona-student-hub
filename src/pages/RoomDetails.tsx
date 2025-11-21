@@ -51,7 +51,8 @@ const RoomDetails = () => {
   const fetchRoom = async () => {
     setIsLoading(true);
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 
+        (import.meta.env.PROD ? window.location.origin : "http://localhost:4242");
       // Add cache busting parameter and no-cache headers
       const timestamp = Date.now();
       const response = await fetch(`${backendUrl}/api/rooms/${id}?_t=${timestamp}`, {
