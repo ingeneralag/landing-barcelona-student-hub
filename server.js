@@ -33,7 +33,18 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 // Serve static files from dist directory (Vite build output)
-app.use(express.static(path.join(__dirname, 'dist')));
+// Serve static files with cache control
+app.use(express.static(path.join(__dirname, 'dist'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    } else if (path.match(/\.(js|css)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  }
+}));
 
 // Handle SPA routing - serve index.html for all non-API routes
 // Must be after all API routes
