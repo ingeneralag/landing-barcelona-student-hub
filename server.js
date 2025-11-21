@@ -50,8 +50,6 @@ app.options(/.*/, (req, res) => {
   res.sendStatus(200);
 });
 
-app.use(express.json());
-
 // Serve static files from public directory
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
