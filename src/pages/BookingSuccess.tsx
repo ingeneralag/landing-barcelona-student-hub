@@ -579,9 +579,7 @@ const BookingSuccess = () => {
               </style>
             </head>
             <body style="-webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; position: relative;">
-              <div class="watermark-logo" style="position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) rotate(-45deg) !important; width: 500px !important; height: 500px !important; z-index: 0 !important; pointer-events: none !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; display: block !important; visibility: visible !important; opacity: 1 !important;">
-                <img src="${logoUrl}" alt="Watermark" style="width: 100% !important; height: 100% !important; object-fit: contain !important; opacity: 0.15 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; display: block !important; visibility: visible !important;" onload="console.log('Watermark image loaded');" onerror="console.error('Watermark image failed to load:', this.src);" />
-              </div>
+              <!-- Watermark is now included in BookingReceipt component -->
               <div class="print-container" style="position: relative; z-index: 1; background: white;">
                 ${content.innerHTML}
               </div>
