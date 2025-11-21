@@ -293,7 +293,7 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="border rounded-lg p-4 bg-muted/30 min-h-[200px]">
+              <div className="border-2 border-orange-100 rounded-xl p-6 bg-gradient-to-br from-orange-50/50 to-white shadow-sm min-h-[250px] transition-all hover:shadow-md">
                 <PaymentElement 
                   onReady={() => {
                     console.log('PaymentElement is ready');
@@ -507,6 +507,33 @@ const Checkout = () => {
         clientSecret,
         appearance: {
           theme: "stripe" as const,
+          variables: {
+            colorPrimary: "#f97316", // Orange color matching your theme
+            colorBackground: "#ffffff",
+            colorText: "#1f2937",
+            colorDanger: "#ef4444",
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            spacingUnit: "4px",
+            borderRadius: "8px",
+          },
+          rules: {
+            ".Input": {
+              borderColor: "#e5e7eb",
+              boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+            },
+            ".Input:focus": {
+              borderColor: "#f97316",
+              boxShadow: "0 0 0 3px rgba(249, 115, 22, 0.1)",
+            },
+            ".Tab": {
+              borderRadius: "8px",
+              padding: "12px 16px",
+            },
+            ".Tab--selected": {
+              backgroundColor: "#fff7ed",
+              borderColor: "#f97316",
+            },
+          },
         },
         locale: 'en' as const,
         loader: 'auto' as const,
