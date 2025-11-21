@@ -26,7 +26,15 @@ if (!stripeSecretKey) {
 }
 const stripe = new Stripe(stripeSecretKey);
 
-app.use(cors());
+// Configure CORS with explicit options for Safari compatibility
+app.use(cors({
+  origin: true, // Allow all origins (or specify your domain)
+  credentials: true, // Allow credentials
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 86400, // 24 hours
+}));
 app.use(express.json());
 
 // Serve static files from public directory

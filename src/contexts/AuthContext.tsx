@@ -63,16 +63,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4242";
+      console.log('Attempting login to:', `${backendUrl}/api/auth/login`);
+      console.log('Username:', username);
+      
       const response = await fetch(`${backendUrl}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
+        credentials: "include", // Include credentials for Safari
         body: JSON.stringify({ username, password }),
       });
 
+      console.log('Login response status:', response.status);
+      console.log('Login response ok:', response.ok);
+
       if (response.ok) {
         const data = await response.json();
+        console.log('Login successful, sessionId:', data.sessionId);
         setSessionId(data.sessionId);
         setUsername(data.username);
         setIsAuthenticated(true);
@@ -80,6 +89,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem("username", data.username);
         return true;
       } else {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Login failed:', errorData);
         return false;
       }
     } catch (error) {
